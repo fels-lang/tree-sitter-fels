@@ -1,0 +1,631 @@
+========================================
+binary operator precedence
+========================================
+
+f :: fn() { x := a + b * c - d / e % f; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (binary_expression
+          (binary_expression
+            (identifier)
+            (binary_expression
+              (identifier)
+              (identifier)))
+          (binary_expression
+            (binary_expression
+              (identifier)
+              (identifier))
+            (identifier)))))))
+
+========================================
+comparison and logical
+========================================
+
+f :: fn() { x := a < b && c >= d || e != f; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (binary_expression
+          (binary_expression
+            (binary_expression
+              (identifier)
+              (identifier))
+            (binary_expression
+              (identifier)
+              (identifier)))
+          (binary_expression
+            (identifier)
+            (identifier)))))))
+
+========================================
+bitwise and shift
+========================================
+
+f :: fn() { x := a | b ^ c & d << 2 >> 1; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (binary_expression
+          (identifier)
+          (binary_expression
+            (identifier)
+            (binary_expression
+              (identifier)
+              (binary_expression
+                (binary_expression
+                  (identifier)
+                  (integer_literal))
+                (integer_literal)))))))))
+
+========================================
+wrapping operators
+========================================
+
+f :: fn() { x := a +% b -% c *% d; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (binary_expression
+          (binary_expression
+            (identifier)
+            (identifier))
+          (binary_expression
+            (identifier)
+            (identifier)))))))
+
+========================================
+unary operators
+========================================
+
+f :: fn() { x := -a; y := !b; z := ~c; p := &d; q := *p; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (unary_expression
+          (identifier)))
+      (variable_declaration
+        (identifier)
+        (unary_expression
+          (identifier)))
+      (variable_declaration
+        (identifier)
+        (unary_expression
+          (identifier)))
+      (variable_declaration
+        (identifier)
+        (unary_expression
+          (identifier)))
+      (variable_declaration
+        (identifier)
+        (unary_expression
+          (identifier))))))
+
+========================================
+unary binds tighter than multiplication
+========================================
+
+f :: fn() { x := -a * b; y := *p + 1; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (binary_expression
+          (unary_expression
+            (identifier))
+          (identifier)))
+      (variable_declaration
+        (identifier)
+        (binary_expression
+          (unary_expression
+            (identifier))
+          (integer_literal))))))
+
+========================================
+postfix operators
+========================================
+
+f :: fn() { x := a?; y := b!!; z := c as u8; w := d ?? 0; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (try_expression
+          (identifier)))
+      (variable_declaration
+        (identifier)
+        (force_unwrap_expression
+          (identifier)))
+      (variable_declaration
+        (identifier)
+        (cast_expression
+          (identifier)
+          (primitive_type)))
+      (variable_declaration
+        (identifier)
+        (coalesce_expression
+          (identifier)
+          (integer_literal))))))
+
+========================================
+coalesce takes the rest of the expression
+========================================
+
+f :: fn() { x := a + b ?? c + d; y := a ?? b ?? c; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (binary_expression
+          (identifier)
+          (coalesce_expression
+            (identifier)
+            (binary_expression
+              (identifier)
+              (identifier)))))
+      (variable_declaration
+        (identifier)
+        (coalesce_expression
+          (identifier)
+          (coalesce_expression
+            (identifier)
+            (identifier)))))))
+
+========================================
+cast binds tighter than binary
+========================================
+
+f :: fn() { x := a + b as u8; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (binary_expression
+          (identifier)
+          (cast_expression
+            (identifier)
+            (primitive_type)))))))
+
+========================================
+calls fields and paths
+========================================
+
+f :: fn() { x := a.b.c(1, 2).d; y := core::min(a, b); z := m::f(x: 1); }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (field_expression
+          (call_expression
+            (field_expression
+              (field_expression
+                (identifier)
+                (field_identifier))
+              (field_identifier))
+            (argument_list
+              (integer_literal)
+              (integer_literal)))
+          (field_identifier)))
+      (variable_declaration
+        (identifier)
+        (call_expression
+          (scope_expression
+            (identifier)
+            (identifier))
+          (argument_list
+            (identifier)
+            (identifier))))
+      (variable_declaration
+        (identifier)
+        (call_expression
+          (scope_expression
+            (identifier)
+            (identifier))
+          (argument_list
+            (named_argument
+              (identifier)
+              (integer_literal))))))))
+
+========================================
+calls with type arguments
+========================================
+
+f :: fn() { n := sizeof(*const u8); m := sizeof(i32); p := ptr_from_int(**u8, q); }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (call_expression
+          (identifier)
+          (argument_list
+            (pointer_type
+              (primitive_type)))))
+      (variable_declaration
+        (identifier)
+        (call_expression
+          (identifier)
+          (argument_list
+            (primitive_type))))
+      (variable_declaration
+        (identifier)
+        (call_expression
+          (identifier)
+          (argument_list
+            (unary_expression
+              (unary_expression
+                (primitive_type)))
+            (identifier)))))))
+
+========================================
+indexing and slicing
+========================================
+
+f :: fn() { a := x[0]; b := x[1..]; c := x[..2]; d := x[1..3]; e := x[:]; f := x[..]; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (index_expression
+          (identifier)
+          (integer_literal)))
+      (variable_declaration
+        (identifier)
+        (slice_expression
+          (identifier)
+          (integer_literal)))
+      (variable_declaration
+        (identifier)
+        (slice_expression
+          (identifier)
+          (integer_literal)))
+      (variable_declaration
+        (identifier)
+        (slice_expression
+          (identifier)
+          (integer_literal)
+          (integer_literal)))
+      (variable_declaration
+        (identifier)
+        (slice_expression
+          (identifier)))
+      (variable_declaration
+        (identifier)
+        (slice_expression
+          (identifier))))))
+
+========================================
+aggregate literals
+========================================
+
+f :: fn() { a := .{}; b := .{ 1, 2, 3 }; c := .{ .x = 1, .y = 2 }; d := {}; e := .{ .red, .green }; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (compound_literal))
+      (variable_declaration
+        (identifier)
+        (compound_literal
+          (integer_literal)
+          (integer_literal)
+          (integer_literal)))
+      (variable_declaration
+        (identifier)
+        (compound_literal
+          (field_initializer
+            (field_identifier)
+            (integer_literal))
+          (field_initializer
+            (field_identifier)
+            (integer_literal))))
+      (variable_declaration
+        (identifier)
+        (compound_literal))
+      (variable_declaration
+        (identifier)
+        (compound_literal
+          (enum_literal
+            (variant_identifier))
+          (enum_literal
+            (variant_identifier)))))))
+
+========================================
+named argument with brace literal
+========================================
+
+f :: fn() { g(inputs: { "a"(1) }, n: 2); }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (expression_statement
+        (call_expression
+          (identifier)
+          (argument_list
+            (named_argument
+              (identifier)
+              (compound_literal
+                (call_expression
+                  (string_literal
+                    (string_content))
+                  (argument_list
+                    (integer_literal)))))
+            (named_argument
+              (identifier)
+              (integer_literal))))))))
+
+========================================
+enum literals
+========================================
+
+f :: fn() { c: Color = .red; if c == .green { } }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (type_identifier)
+        (enum_literal
+          (variant_identifier)))
+      (if_statement
+        (binary_expression
+          (identifier)
+          (enum_literal
+            (variant_identifier)))
+        (block)))))
+
+========================================
+lambdas
+========================================
+
+f :: fn() { g := fn(x: i32) -> i32 { return x + 1; }; h := fn() { }; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (lambda_expression
+          (lambda_parameters
+            (parameter
+              (identifier)
+              (primitive_type)))
+          (primitive_type)
+          (block
+            (return_statement
+              (binary_expression
+                (identifier)
+                (integer_literal))))))
+      (variable_declaration
+        (identifier)
+        (lambda_expression
+          (lambda_parameters)
+          (block))))))
+
+========================================
+unsafe expression
+========================================
+
+f :: fn() { x := unsafe (p) as *u8; y := unsafe *p; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (unsafe_expression
+          (cast_expression
+            (parenthesized_expression
+              (identifier))
+            (pointer_type
+              (primitive_type)))))
+      (variable_declaration
+        (identifier)
+        (unsafe_expression
+          (unary_expression
+            (identifier)))))))
+
+========================================
+conditional expression
+========================================
+
+f :: fn() { x := if a { 1 } else if b { 2 } else { 3 }; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (if_expression
+          (identifier)
+          (integer_literal)
+          (if_expression
+            (identifier)
+            (integer_literal)
+            (integer_literal)))))))
+
+========================================
+match expression
+========================================
+
+f :: fn() { x := match c { .red => 1, .green => 2, else => 3 }; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (match_expression
+          (identifier)
+          (match_body
+            (match_arm
+              (match_pattern
+                (enum_literal
+                  (variant_identifier)))
+              (integer_literal))
+            (match_arm
+              (match_pattern
+                (enum_literal
+                  (variant_identifier)))
+              (integer_literal))
+            (match_arm
+              (match_pattern)
+              (integer_literal))))))))
+
+========================================
+if not confused with struct literal
+========================================
+
+f :: fn() { if a == b { return; } while x < 3 { x += 1; } }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (if_statement
+        (binary_expression
+          (identifier)
+          (identifier))
+        (block
+          (return_statement)))
+      (while_statement
+        (binary_expression
+          (identifier)
+          (integer_literal))
+        (block
+          (assignment_statement
+            (identifier)
+            (integer_literal)))))))
+
+========================================
+parenthesized
+========================================
+
+f :: fn() { x := (a + b) * c; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (binary_expression
+          (parenthesized_expression
+            (binary_expression
+              (identifier)
+              (identifier)))
+          (identifier))))))

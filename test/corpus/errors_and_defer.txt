@@ -1,0 +1,165 @@
+========================================
+fail with and without payload
+========================================
+
+f :: fn() -> i32 ! E { fail .eof; fail .code { 77 }; fail .pair { 1, 2, }; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (primitive_type)
+    (error_clause
+      (type_identifier))
+    (block
+      (fail_statement
+        (variant_identifier))
+      (fail_statement
+        (variant_identifier)
+        (fail_payload
+          (integer_literal)))
+      (fail_statement
+        (variant_identifier)
+        (fail_payload
+          (integer_literal)
+          (integer_literal))))))
+
+========================================
+try and force unwrap
+========================================
+
+f :: fn() -> i32 ! E { x := g()?; y := h()!!; return x + y; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (primitive_type)
+    (error_clause
+      (type_identifier))
+    (block
+      (variable_declaration
+        (identifier)
+        (try_expression
+          (call_expression
+            (identifier)
+            (argument_list))))
+      (variable_declaration
+        (identifier)
+        (force_unwrap_expression
+          (call_expression
+            (identifier)
+            (argument_list))))
+      (return_statement
+        (binary_expression
+          (identifier)
+          (identifier))))))
+
+========================================
+catch
+========================================
+
+f :: fn() { v := g() catch e { if e == .eof { return; } return; }; g() catch err { n += 1; }; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (catch_expression
+          (call_expression
+            (identifier)
+            (argument_list))
+          (identifier)
+          (block
+            (if_statement
+              (binary_expression
+                (identifier)
+                (enum_literal
+                  (variant_identifier)))
+              (block
+                (return_statement)))
+            (return_statement))))
+      (expression_statement
+        (catch_expression
+          (call_expression
+            (identifier)
+            (argument_list))
+          (identifier)
+          (block
+            (assignment_statement
+              (identifier)
+              (integer_literal))))))))
+
+========================================
+nil coalesce
+========================================
+
+f :: fn() { x := maybe() ?? 0; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (coalesce_expression
+          (call_expression
+            (identifier)
+            (argument_list))
+          (integer_literal))))))
+
+========================================
+defer forms
+========================================
+
+f :: fn() { defer close(h); defer { a(); b(); } defer.ok commit(); defer.err { rollback(); } defer.ok { } }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (defer_statement
+        (call_expression
+          (identifier)
+          (argument_list
+            (identifier))))
+      (defer_statement
+        (block
+          (expression_statement
+            (call_expression
+              (identifier)
+              (argument_list)))
+          (expression_statement
+            (call_expression
+              (identifier)
+              (argument_list)))))
+      (defer_statement
+        (defer_mode)
+        (call_expression
+          (identifier)
+          (argument_list)))
+      (defer_statement
+        (defer_mode)
+        (block
+          (expression_statement
+            (call_expression
+              (identifier)
+              (argument_list)))))
+      (defer_statement
+        (defer_mode)
+        (block)))))

@@ -1,0 +1,21 @@
+f :: fn() {
+    a := b + c -% d;
+//? + | operator
+//? -% | operator
+    a = b?;
+//? ? | operator
+    a = b ?? c;
+//? ?? | operator
+    a = b!!;
+//? !! | operator
+    a = x[1..];
+//? [ | punctuation.bracket
+//? .. | operator
+    a = .{ 1, 2 };
+//? .{ | punctuation.bracket
+//? , | punctuation.delimiter
+    a = &b;
+//? & | operator
+    return;
+//? ; | punctuation.delimiter
+}

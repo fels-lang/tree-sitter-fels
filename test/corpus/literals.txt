@@ -1,0 +1,160 @@
+========================================
+integer literals
+========================================
+
+A :: 42;
+B :: 0xFF;
+C :: 0b1010;
+D :: 1_000_000;
+E :: 255u8;
+F :: 0xFFusize;
+G :: 7i64;
+
+----------------------------------------
+
+(source_file
+  (constant_declaration
+    (identifier)
+    (integer_literal))
+  (constant_declaration
+    (identifier)
+    (integer_literal))
+  (constant_declaration
+    (identifier)
+    (integer_literal))
+  (constant_declaration
+    (identifier)
+    (integer_literal))
+  (constant_declaration
+    (identifier)
+    (integer_literal))
+  (constant_declaration
+    (identifier)
+    (integer_literal))
+  (constant_declaration
+    (identifier)
+    (integer_literal)))
+
+========================================
+float literals
+========================================
+
+A :: 3.14;
+B :: 2.5f64;
+C :: 1_0.5f32;
+
+----------------------------------------
+
+(source_file
+  (constant_declaration
+    (identifier)
+    (float_literal))
+  (constant_declaration
+    (identifier)
+    (float_literal))
+  (constant_declaration
+    (identifier)
+    (float_literal)))
+
+========================================
+booleans and null
+========================================
+
+A :: true;
+B :: false;
+C :: null;
+
+----------------------------------------
+
+(source_file
+  (constant_declaration
+    (identifier)
+    (boolean_literal))
+  (constant_declaration
+    (identifier)
+    (boolean_literal))
+  (constant_declaration
+    (identifier)
+    (null_literal)))
+
+========================================
+string literals
+========================================
+
+A :: "hello";
+B :: "line\nbreak\t\"quote\" \\ \x41 \0";
+C :: "";
+
+----------------------------------------
+
+(source_file
+  (constant_declaration
+    (identifier)
+    (string_literal
+      (string_content)))
+  (constant_declaration
+    (identifier)
+    (string_literal
+      (string_content)
+      (escape_sequence)
+      (string_content)
+      (escape_sequence)
+      (escape_sequence)
+      (string_content)
+      (escape_sequence)
+      (string_content)
+      (escape_sequence)
+      (string_content)
+      (escape_sequence)
+      (string_content)
+      (escape_sequence)))
+  (constant_declaration
+    (identifier)
+    (string_literal)))
+
+========================================
+char literals
+========================================
+
+A :: 'a';
+B :: '\n';
+C :: '\'';
+D :: '\x41';
+
+----------------------------------------
+
+(source_file
+  (constant_declaration
+    (identifier)
+    (char_literal
+      (char_content)))
+  (constant_declaration
+    (identifier)
+    (char_literal
+      (escape_sequence)))
+  (constant_declaration
+    (identifier)
+    (char_literal
+      (escape_sequence)))
+  (constant_declaration
+    (identifier)
+    (char_literal
+      (escape_sequence))))
+
+========================================
+comments
+========================================
+
+// a line comment
+x :: 1; // trailing
+// another
+
+----------------------------------------
+
+(source_file
+  (comment)
+  (constant_declaration
+    (identifier)
+    (integer_literal))
+  (comment)
+  (comment))

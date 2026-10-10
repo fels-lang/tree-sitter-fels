@@ -1,0 +1,218 @@
+========================================
+pointer types
+========================================
+
+a: *u8 = x;
+b: *const u8 = x;
+c: [*]u8 = x;
+d: [*]const u8 = x;
+e: ?*void = null;
+
+----------------------------------------
+
+(source_file
+  (global_declaration
+    (identifier)
+    (pointer_type
+      (primitive_type))
+    (identifier))
+  (global_declaration
+    (identifier)
+    (pointer_type
+      (primitive_type))
+    (identifier))
+  (global_declaration
+    (identifier)
+    (many_pointer_type
+      (primitive_type))
+    (identifier))
+  (global_declaration
+    (identifier)
+    (many_pointer_type
+      (primitive_type))
+    (identifier))
+  (global_declaration
+    (identifier)
+    (optional_type
+      (pointer_type
+        (primitive_type)))
+    (null_literal)))
+
+========================================
+slice and array types
+========================================
+
+a: []u8 = x;
+b: []const u8 = x;
+c: [4]u8 = .{};
+d: [N * 2][3]i32 = .{};
+
+----------------------------------------
+
+(source_file
+  (global_declaration
+    (identifier)
+    (slice_type
+      (primitive_type))
+    (identifier))
+  (global_declaration
+    (identifier)
+    (slice_type
+      (primitive_type))
+    (identifier))
+  (global_declaration
+    (identifier)
+    (array_type
+      (integer_literal)
+      (primitive_type))
+    (compound_literal))
+  (global_declaration
+    (identifier)
+    (array_type
+      (binary_expression
+        (identifier)
+        (integer_literal))
+      (array_type
+        (integer_literal)
+        (primitive_type)))
+    (compound_literal)))
+
+========================================
+function types
+========================================
+
+a: fn(i32, i32) -> i32 = f;
+b: extern fn(*const u8) -> i32 = g;
+c: fn() = h;
+d: fn(i32) -> i32 ! E = h;
+
+----------------------------------------
+
+(source_file
+  (global_declaration
+    (identifier)
+    (function_type
+      (primitive_type)
+      (primitive_type)
+      (primitive_type))
+    (identifier))
+  (global_declaration
+    (identifier)
+    (function_type
+      (pointer_type
+        (primitive_type))
+      (primitive_type))
+    (identifier))
+  (global_declaration
+    (identifier)
+    (function_type)
+    (identifier))
+  (global_declaration
+    (identifier)
+    (function_type
+      (primitive_type)
+      (primitive_type)
+      (error_clause
+        (type_identifier)))
+    (identifier)))
+
+========================================
+generic and scoped types
+========================================
+
+a: Vec(i32) = x;
+b: m::Name = x;
+c: m::Pair(u8, Vec(i32)) = x;
+d: atomic u32 = 0;
+e: borrow Buf = x;
+
+----------------------------------------
+
+(source_file
+  (global_declaration
+    (identifier)
+    (generic_type
+      (type_identifier)
+      (type_arguments
+        (primitive_type)))
+    (identifier))
+  (global_declaration
+    (identifier)
+    (scoped_type_identifier
+      (module_identifier)
+      (type_identifier))
+    (identifier))
+  (global_declaration
+    (identifier)
+    (generic_type
+      (scoped_type_identifier
+        (module_identifier)
+        (type_identifier))
+      (type_arguments
+        (primitive_type)
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (primitive_type)))))
+    (identifier))
+  (global_declaration
+    (identifier)
+    (atomic_type
+      (primitive_type))
+    (integer_literal))
+  (global_declaration
+    (identifier)
+    (borrow_type
+      (type_identifier))
+    (identifier)))
+
+========================================
+primitive types
+========================================
+
+a: bool = true;
+b: f64 = 1.5;
+c: usize = 0;
+f :: fn(x: i8, y: i16, z: i64, w: isize, a: u16, b: u32, c: u64) -> void { }
+
+----------------------------------------
+
+(source_file
+  (global_declaration
+    (identifier)
+    (primitive_type)
+    (boolean_literal))
+  (global_declaration
+    (identifier)
+    (type_identifier)
+    (float_literal))
+  (global_declaration
+    (identifier)
+    (primitive_type)
+    (integer_literal))
+  (function_declaration
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (primitive_type))
+      (parameter
+        (identifier)
+        (primitive_type))
+      (parameter
+        (identifier)
+        (primitive_type))
+      (parameter
+        (identifier)
+        (primitive_type))
+      (parameter
+        (identifier)
+        (primitive_type))
+      (parameter
+        (identifier)
+        (primitive_type))
+      (parameter
+        (identifier)
+        (primitive_type)))
+    (primitive_type)
+    (block)))

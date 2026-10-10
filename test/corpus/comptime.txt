@@ -1,0 +1,191 @@
+========================================
+static assert
+========================================
+
+#assert(sizeof(u32) == 4);
+#assert(N > 0, "N must be positive");
+
+----------------------------------------
+
+(source_file
+  (static_assert
+    (binary_expression
+      (call_expression
+        (identifier)
+        (argument_list
+          (primitive_type)))
+      (integer_literal)))
+  (static_assert
+    (binary_expression
+      (identifier)
+      (integer_literal))
+    (string_literal
+      (string_content))))
+
+========================================
+system library
+========================================
+
+#system_library("kernel32");
+
+----------------------------------------
+
+(source_file
+  (system_library_directive
+    (string_literal
+      (string_content))))
+
+========================================
+run expressions
+========================================
+
+SQ :: #run square(7);
+f :: fn() { x := #run g() + 1; }
+
+----------------------------------------
+
+(source_file
+  (constant_declaration
+    (identifier)
+    (run_expression
+      (call_expression
+        (identifier)
+        (argument_list
+          (integer_literal)))))
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (binary_expression
+          (run_expression
+            (call_expression
+              (identifier)
+              (argument_list)))
+          (integer_literal))))))
+
+========================================
+run block and insert
+========================================
+
+f :: fn() { #run { setup(); } #insert #run gen(); }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (run_directive
+        (block
+          (expression_statement
+            (call_expression
+              (identifier)
+              (argument_list)))))
+      (insert_directive
+        (run_expression
+          (call_expression
+            (identifier)
+            (argument_list)))))))
+
+========================================
+comptime if and for
+========================================
+
+f :: fn() {
+    #if N > 1 { a(); } else { b(); }
+    #for i in 0..4 { c($(i)); }
+}
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (if_directive
+        (binary_expression
+          (identifier)
+          (integer_literal))
+        (block
+          (expression_statement
+            (call_expression
+              (identifier)
+              (argument_list))))
+        (block
+          (expression_statement
+            (call_expression
+              (identifier)
+              (argument_list)))))
+      (for_directive
+        (identifier)
+        (integer_literal)
+        (integer_literal)
+        (block
+          (expression_statement
+            (call_expression
+              (identifier)
+              (argument_list
+                (splice_expression
+                  (identifier))))))))))
+
+========================================
+test attribute
+========================================
+
+#test
+works :: fn() { }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (attribute
+      (identifier))
+    (identifier)
+    (parameter_list)
+    (block)))
+
+========================================
+align and packed
+========================================
+
+#packed
+#align(16)
+S :: struct { a: u8 }
+
+----------------------------------------
+
+(source_file
+  (struct_declaration
+    (attribute
+      (identifier))
+    (attribute
+      (identifier)
+      (attribute_arguments
+        (integer_literal)))
+    (identifier)
+    (struct_body
+      (field_declaration
+        (field_identifier)
+        (primitive_type)))))
+
+========================================
+constraint
+========================================
+
+Native :: constraint($T) { return true; }
+
+----------------------------------------
+
+(source_file
+  (constraint_declaration
+    (identifier)
+    (type_parameter_name
+      (identifier))
+    (block
+      (return_statement
+        (boolean_literal)))))

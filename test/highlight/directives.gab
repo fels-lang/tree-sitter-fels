@@ -1,0 +1,45 @@
+#import std.io;
+// <- preproc
+//      ^ module
+//          ^ module
+#import std.mem.{ alloc };
+//                ^ variable
+#import std.strings as str;
+//          ^ module
+#entry
+// <- attribute
+main :: fn() { }
+#extern("kernel32", "ExitProcess") pub Exit :: fn(code: u32);
+// <- attribute
+//      ^ string
+//                  ^ string
+#assert(N > 0, "N must be positive");
+// <- preproc
+//             ^ string
+f :: fn() {
+    #if N > 1 { a(); }
+//  ^ preproc
+//   ^ preproc
+    #for i in 0..4 { }
+//   ^ preproc
+    #run { }
+//   ^ preproc
+    #insert #quote { x := 1; };
+//   ^ preproc
+//           ^ preproc
+    y := #run g();
+//        ^ preproc
+    z := #parse("a");
+//        ^ preproc
+}
+#derive(Eq)
+// <- attribute
+#packed
+// <- attribute
+#align(16)
+// <- attribute
+//     ^ number
+#test
+// <- attribute
+S :: struct { a: u8 }
+// <- type

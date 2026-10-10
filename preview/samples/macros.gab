@@ -1,0 +1,49 @@
+// A macro heavy sample for the highlight preview.
+#import std.io.{ println };
+
+swap :: macro(a: Expr, b: Expr) {
+    return #quote {
+        t := $a;
+        $a = $b;
+        $b = t;
+    };
+}
+
+twice :: macro(body: Block) {
+    return #quote { $body; $body; };
+}
+
+sum_first :: macro(out: Expr) {
+    return #quote {
+        #for i in 0..4 { $out = $out + $(i); }
+    };
+}
+
+build :: macro(out: Expr, ty: Expr, sel: Expr) {
+    return #quote {
+        acc: $ty = 0;
+        match $sel {
+            1 => { $out = acc; }
+            else => { $out = 0; }
+        }
+    };
+}
+
+Native :: constraint($T) { return true; }
+
+#derive(Eq, Ord)
+Pair :: struct { a: i32, b: i32 }
+
+FIB :: #run fib(20);
+
+#entry
+main :: fn() -> i32 {
+    x: i32 = 7;
+    y: i32 = 49;
+    #insert swap(x, y);
+    n: i32 = 0;
+    #insert twice(#quote { n = n + 21; });
+    #insert #parse("answer := 42;");
+    #if FIB > 100 { println("big"); } else { println("small"); }
+    return x - y + n + core::sizeof(i32);
+}

@@ -1,0 +1,434 @@
+========================================
+function declarations
+========================================
+
+add :: fn(a: i32, b: i32) -> i32 { return a + b; }
+pub main :: fn() { }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (primitive_type))
+      (parameter
+        (identifier)
+        (primitive_type)))
+    (primitive_type)
+    (block
+      (return_statement
+        (binary_expression
+          (identifier)
+          (identifier)))))
+  (function_declaration
+    (visibility_modifier)
+    (identifier)
+    (parameter_list)
+    (block)))
+
+========================================
+constants and typed globals
+========================================
+
+LIMIT :: 5;
+G: [4]u8 = .{};
+pub NAME: []const u8 = "gabbro";
+
+----------------------------------------
+
+(source_file
+  (constant_declaration
+    (identifier)
+    (integer_literal))
+  (global_declaration
+    (identifier)
+    (array_type
+      (integer_literal)
+      (primitive_type))
+    (compound_literal))
+  (global_declaration
+    (visibility_modifier)
+    (identifier)
+    (slice_type
+      (primitive_type))
+    (string_literal
+      (string_content))))
+
+========================================
+type alias distinct and opaque
+========================================
+
+Bytes :: []const u8;
+Handle :: distinct usize;
+Ctx :: opaque;
+Ptr :: *const u8;
+
+----------------------------------------
+
+(source_file
+  (type_alias_declaration
+    (identifier)
+    (slice_type
+      (primitive_type)))
+  (distinct_declaration
+    (identifier)
+    (primitive_type))
+  (opaque_declaration
+    (identifier))
+  (type_alias_declaration
+    (identifier)
+    (pointer_type
+      (primitive_type))))
+
+========================================
+struct with fields and methods
+========================================
+
+Point :: struct {
+    x: f64,
+    y: f64 = 0.0,
+    len :: fn(self: *Point) -> f64 { return self.x; }
+    pub make :: fn() -> Point { return .{ .x = 1.0, .y = 2.0 }; }
+}
+
+----------------------------------------
+
+(source_file
+  (struct_declaration
+    (identifier)
+    (struct_body
+      (field_declaration
+        (field_identifier)
+        (type_identifier))
+      (field_declaration
+        (field_identifier)
+        (type_identifier)
+        (float_literal))
+      (function_declaration
+        (identifier)
+        (parameter_list
+          (parameter
+            (identifier)
+            (pointer_type
+              (type_identifier))))
+        (type_identifier)
+        (block
+          (return_statement
+            (field_expression
+              (identifier)
+              (field_identifier)))))
+      (function_declaration
+        (visibility_modifier)
+        (identifier)
+        (parameter_list)
+        (type_identifier)
+        (block
+          (return_statement
+            (compound_literal
+              (field_initializer
+                (field_identifier)
+                (float_literal))
+              (field_initializer
+                (field_identifier)
+                (float_literal)))))))))
+
+========================================
+generic struct and function
+========================================
+
+Boxed :: struct($T: type) { value: T }
+Num :: struct($T: Native, $U: type) { a: T, b: U }
+id :: fn($T: type, x: T) -> T { return x; }
+first :: fn(xs: []$T) -> T { return xs[0]; }
+pick :: fn(a: $T, b: T) -> T where T: Ord { return a; }
+
+----------------------------------------
+
+(source_file
+  (struct_declaration
+    (identifier)
+    (struct_type_parameters
+      (type_parameter
+        (identifier)))
+    (struct_body
+      (field_declaration
+        (field_identifier)
+        (type_identifier))))
+  (struct_declaration
+    (identifier)
+    (struct_type_parameters
+      (type_parameter
+        (identifier)
+        (type_identifier))
+      (type_parameter
+        (identifier)))
+    (struct_body
+      (field_declaration
+        (field_identifier)
+        (type_identifier))
+      (field_declaration
+        (field_identifier)
+        (type_identifier))))
+  (function_declaration
+    (identifier)
+    (parameter_list
+      (type_parameter
+        (identifier))
+      (parameter
+        (identifier)
+        (type_identifier)))
+    (type_identifier)
+    (block
+      (return_statement
+        (identifier))))
+  (function_declaration
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (slice_type
+          (type_variable
+            (type_identifier)))))
+    (type_identifier)
+    (block
+      (return_statement
+        (index_expression
+          (identifier)
+          (integer_literal)))))
+  (function_declaration
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (type_variable
+          (type_identifier)))
+      (parameter
+        (identifier)
+        (type_identifier)))
+    (type_identifier)
+    (where_clause
+      (where_bound
+        (type_identifier)
+        (type_identifier)))
+    (block
+      (return_statement
+        (identifier)))))
+
+========================================
+enum and errors declarations
+========================================
+
+Color :: enum { red, green, blue }
+Shape :: enum { .circle: f64, .square: f64, none }
+ParseError :: errors { eof, bad: i32, .tail, }
+
+----------------------------------------
+
+(source_file
+  (enum_declaration
+    (identifier)
+    (enum_variant
+      (variant_identifier))
+    (enum_variant
+      (variant_identifier))
+    (enum_variant
+      (variant_identifier)))
+  (enum_declaration
+    (identifier)
+    (enum_variant
+      (variant_identifier)
+      (type_identifier))
+    (enum_variant
+      (variant_identifier)
+      (type_identifier))
+    (enum_variant
+      (variant_identifier)))
+  (errors_declaration
+    (identifier)
+    (error_variant
+      (variant_identifier))
+    (error_variant
+      (variant_identifier)
+      (primitive_type))
+    (error_variant
+      (variant_identifier))))
+
+========================================
+interface and implementation
+========================================
+
+Shape2 :: interface {
+    area :: fn(self: *Self) -> f64;
+}
+Sq as Shape2 {
+    area :: fn(self: *Sq) -> f64 { return 1.0; }
+}
+
+----------------------------------------
+
+(source_file
+  (interface_declaration
+    (identifier)
+    (method_list
+      (function_declaration
+        (identifier)
+        (parameter_list
+          (parameter
+            (identifier)
+            (pointer_type
+              (type_identifier))))
+        (type_identifier))))
+  (interface_impl
+    (type_identifier)
+    (type_identifier)
+    (method_list
+      (function_declaration
+        (identifier)
+        (parameter_list
+          (parameter
+            (identifier)
+            (pointer_type
+              (type_identifier))))
+        (type_identifier)
+        (block
+          (return_statement
+            (float_literal)))))))
+
+========================================
+imports
+========================================
+
+#import std.io;
+#import std.mem.{ alloc, free, };
+#import std.strings.*;
+#import std.utf16 as u16;
+
+----------------------------------------
+
+(source_file
+  (import_declaration
+    (module_path
+      (identifier)
+      (identifier)))
+  (import_declaration
+    (module_path
+      (identifier)
+      (identifier))
+    (identifier)
+    (identifier))
+  (import_declaration
+    (module_path
+      (identifier)
+      (identifier)))
+  (import_declaration
+    (module_path
+      (identifier)
+      (identifier))
+    (identifier)))
+
+========================================
+attributes and extern functions
+========================================
+
+#entry
+main :: fn() -> i32 { return 0; }
+#extern("kernel32", "ExitProcess") pub ExitProcess :: fn(code: u32);
+#derive(Eq, Ord)
+#packed
+Pair :: struct { a: i32, b: i32 }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (attribute
+      (identifier))
+    (identifier)
+    (parameter_list)
+    (primitive_type)
+    (block
+      (return_statement
+        (integer_literal))))
+  (function_declaration
+    (attribute
+      (identifier)
+      (attribute_arguments
+        (string_literal
+          (string_content))
+        (string_literal
+          (string_content))))
+    (visibility_modifier)
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (primitive_type))))
+  (struct_declaration
+    (attribute
+      (identifier)
+      (attribute_arguments
+        (identifier)
+        (identifier)))
+    (attribute
+      (identifier))
+    (identifier)
+    (struct_body
+      (field_declaration
+        (field_identifier)
+        (primitive_type))
+      (field_declaration
+        (field_identifier)
+        (primitive_type)))))
+
+========================================
+result types
+========================================
+
+f :: fn() -> i32 ! ParseError { fail .eof; }
+g :: fn() -> i32 ! { return 1; }
+h :: fn() -> void ! { .a, .b: i32 } { }
+k :: fn() -> i32 ! mod::Err;
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (primitive_type)
+    (error_clause
+      (type_identifier))
+    (block
+      (fail_statement
+        (variant_identifier))))
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (primitive_type)
+    (error_clause)
+    (block
+      (return_statement
+        (integer_literal))))
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (primitive_type)
+    (error_clause
+      (inline_error_set
+        (error_variant
+          (variant_identifier))
+        (error_variant
+          (variant_identifier)
+          (primitive_type))))
+    (block))
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (primitive_type)
+    (error_clause
+      (scoped_type_identifier
+        (module_identifier)
+        (type_identifier)))))

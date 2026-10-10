@@ -1,0 +1,24 @@
+Color :: enum { red, green: i32 }
+//              ^ enum
+//                          ^ type.builtin
+Err :: errors { eof, bad: i32 }
+//              ^ constant.error
+f :: fn() -> i32 ! Err {
+    c: Color = .red;
+//             ^ punctuation.delimiter
+//              ^ enum
+    p := .{ .x = 1 };
+//           ^ property
+    fail .eof;
+//        ^ constant.error
+    g(name: 1);
+//    ^ property
+    if c == .green { }
+//           ^ enum
+}
+LIMIT :: 5;
+// <- constant
+// A comment
+// <- comment
+/// A doc comment
+// <- comment.doc

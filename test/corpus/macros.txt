@@ -1,0 +1,201 @@
+========================================
+macro with quote and splices
+========================================
+
+swap :: macro(a: Expr, b: Expr) {
+    return #quote {
+        t := $a;
+        $a = $b;
+        $b = t;
+    };
+}
+
+----------------------------------------
+
+(source_file
+  (macro_declaration
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (type_identifier))
+      (parameter
+        (identifier)
+        (type_identifier)))
+    (block
+      (return_statement
+        (quote_expression
+          (block
+            (variable_declaration
+              (identifier)
+              (splice_expression
+                (identifier)))
+            (assignment_statement
+              (splice_expression
+                (identifier))
+              (splice_expression
+                (identifier)))
+            (assignment_statement
+              (splice_expression
+                (identifier))
+              (identifier))))))))
+
+========================================
+block splice
+========================================
+
+twice :: macro(body: Block) {
+    return #quote { $body; $body; };
+}
+
+----------------------------------------
+
+(source_file
+  (macro_declaration
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (type_identifier)))
+    (block
+      (return_statement
+        (quote_expression
+          (block
+            (expression_statement
+              (splice_expression
+                (identifier)))
+            (expression_statement
+              (splice_expression
+                (identifier)))))))))
+
+========================================
+splice in type position and match
+========================================
+
+build :: macro(out: Expr, ty: Expr, sel: Expr) {
+    return #quote {
+        acc: $ty = 0;
+        match $sel {
+            1 => { $out = acc; }
+            else => { $out = 0; }
+        }
+    };
+}
+
+----------------------------------------
+
+(source_file
+  (macro_declaration
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (type_identifier))
+      (parameter
+        (identifier)
+        (type_identifier))
+      (parameter
+        (identifier)
+        (type_identifier)))
+    (block
+      (return_statement
+        (quote_expression
+          (block
+            (variable_declaration
+              (identifier)
+              (type_variable
+                (type_identifier))
+              (integer_literal))
+            (match_statement
+              (splice_expression
+                (identifier))
+              (match_body
+                (match_arm
+                  (match_pattern
+                    (integer_literal))
+                  (block
+                    (assignment_statement
+                      (splice_expression
+                        (identifier))
+                      (identifier))))
+                (match_arm
+                  (match_pattern)
+                  (block
+                    (assignment_statement
+                      (splice_expression
+                        (identifier))
+                      (integer_literal))))))))))))
+
+========================================
+expression quote and parse
+========================================
+
+f :: fn() {
+    #insert #quote { x := 40; };
+    #insert swap(x, y);
+    #insert #parse("answer := 42;");
+    e := #quote(1 + 2);
+}
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (insert_directive
+        (quote_expression
+          (block
+            (variable_declaration
+              (identifier)
+              (integer_literal)))))
+      (insert_directive
+        (call_expression
+          (identifier)
+          (argument_list
+            (identifier)
+            (identifier))))
+      (insert_directive
+        (parse_expression
+          (string_literal
+            (string_content))))
+      (variable_declaration
+        (identifier)
+        (quote_expression
+          (binary_expression
+            (integer_literal)
+            (integer_literal)))))))
+
+========================================
+splice with parentheses
+========================================
+
+m :: macro(o: Expr) { return #quote { #for i in 0..4 { $o = $o + $(i); } }; }
+
+----------------------------------------
+
+(source_file
+  (macro_declaration
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (type_identifier)))
+    (block
+      (return_statement
+        (quote_expression
+          (block
+            (for_directive
+              (identifier)
+              (integer_literal)
+              (integer_literal)
+              (block
+                (assignment_statement
+                  (splice_expression
+                    (identifier))
+                  (binary_expression
+                    (splice_expression
+                      (identifier))
+                    (splice_expression
+                      (identifier))))))))))))

@@ -1,0 +1,39 @@
+add :: fn(a: i32) -> i32 { return a; }
+// <- function
+//        ^ variable.parameter
+Counter :: struct {
+    n: i32,
+//  ^ property
+    bump :: fn(self: *Counter) { self.n += 1; }
+//  ^ function.method
+//             ^ variable.parameter
+//                               ^ variable.builtin
+//                                    ^ property
+}
+main :: fn() {
+    add(1);
+//  ^ function.call
+    c.bump();
+//    ^ function.method.call
+    x := core::sizeof(i32);
+//       ^ module
+//             ^ function.builtin
+    y := utf16::to_utf8(s);
+//       ^ module
+//              ^ function.call
+    z := @panic("no");
+//       ^ function.builtin
+    w := other::LIMIT;
+//       ^ module
+//              ^ constant
+    q := LIMIT + 1;
+//       ^ constant
+    r := local;
+//       ^ variable
+    p.x = 1;
+//    ^ property
+}
+swap :: macro(a: Expr) { return #quote { $a; }; }
+// <- function.macro
+//                                       ^ punctuation.special
+//                                        ^ variable.special

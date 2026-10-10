@@ -1,0 +1,55 @@
+Point :: struct { x: i32 }
+// <- type
+//    ^ operator
+//       ^ keyword
+pub main :: fn() -> i32 {
+// <- keyword.modifier
+//  ^ function
+//          ^ keyword
+    if true { return 1; } else { return 2; }
+//  ^ keyword.control
+//            ^ keyword.return
+//                        ^ keyword.control
+//     ^ boolean
+    while x { break; continue; }
+//  ^ keyword.control
+//            ^ keyword.control
+//                   ^ keyword.control
+    zone z: Arena { }
+//  ^ keyword.memory
+//          ^ type
+    for i in 0..3 { }
+//  ^ keyword.control
+//        ^ keyword.operator
+//            ^ operator
+    y := x as u8;
+//    ^ operator
+//         ^ keyword.operator
+//            ^ type.builtin
+    defer.ok done();
+//  ^ keyword.exception
+//        ^ keyword.exception
+    v := f() catch e { fail .bad; };
+//           ^ keyword.exception
+//                     ^ keyword.exception
+    unsafe { }
+//  ^ keyword.memory
+    match c { else => { } }
+//  ^ keyword.control
+//            ^ keyword.control
+//                 ^ operator
+}
+Shapes :: enum { circle }
+//        ^ keyword
+Errs :: errors { oops }
+//      ^ keyword
+Api :: interface { }
+//     ^ keyword
+Id :: distinct usize;
+//    ^ keyword
+//             ^ type.builtin
+Handle :: opaque;
+//        ^ keyword
+twice :: macro(b: Block) { }
+//       ^ keyword
+//                ^ type.builtin

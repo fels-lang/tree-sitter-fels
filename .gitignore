@@ -1,0 +1,10 @@
+node_modules/
+build/
+target/
+*.o
+*.so
+*.dll
+*.dylib
+*.wasm
+.DS_Store
+__pycache__/

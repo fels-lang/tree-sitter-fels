@@ -1,0 +1,34 @@
+a: *const u8 = x;
+//  ^ keyword.modifier
+//        ^ type.builtin
+b: []u8 = x;
+//   ^ type.builtin
+c: [4]f64 = x;
+//    ^ type.builtin
+//  ^ number
+d: ?Foo = x;
+// ^ operator
+//  ^ type
+e: fn(i32) -> Bar = x;
+// ^ keyword
+//         ^ operator
+//            ^ type
+f: m::Name = x;
+// ^ module
+//    ^ type
+g: Vec(Item) = x;
+// ^ type
+//     ^ type
+h :: fn(x: $T, $U: type) -> T ! Err { }
+//      ^ variable.parameter
+//         ^ punctuation.special
+//          ^ type.parameter
+//                 ^ type.builtin
+//                            ^ operator
+//                              ^ type
+Boxed :: struct($T: type) { value: T }
+//               ^ type.parameter
+//                          ^ property
+//                                 ^ type
+Opt :: ?*const u8;
+// <- type

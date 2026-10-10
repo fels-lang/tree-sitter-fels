@@ -1,0 +1,9 @@
+{
+  "name": "tree-sitter-gabbro",
+  "version": "0.1.0",
+  "description": "Tree-sitter grammar for the Gabbro programming language",
+  "license": "Apache-2.0",
+  "main": "bindings/node",
+  "files": ["grammar.js", "tree-sitter.json", "src/**", "queries/**"],
+  "keywords": ["tree-sitter", "parser", "gabbro"]
+}
