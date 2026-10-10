@@ -1,5 +1,5 @@
 /**
- * Tree-sitter grammar for the Gabbro programming language.
+ * Tree-sitter grammar for the Fels programming language.
  *
  * The compiler parser (src/parser.zig) is the source of truth. Notes:
  *  - Only `//` line comments exist.
@@ -39,7 +39,7 @@ function commaSep(rule) {
 }
 
 module.exports = grammar({
-  name: 'gabbro',
+  name: 'fels',
 
   word: $ => $.identifier,
 

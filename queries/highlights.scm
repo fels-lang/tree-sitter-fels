@@ -1,4 +1,4 @@
-; Highlights for Gabbro.
+; Highlights for Fels.
 ;
 ; Order matters. When two patterns capture the same node, the pattern that
 ; comes LATER in this file wins (tree-sitter test and Zed both behave this

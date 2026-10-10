@@ -35,7 +35,7 @@ constants and typed globals
 
 LIMIT :: 5;
 G: [4]u8 = .{};
-pub NAME: []const u8 = "gabbro";
+pub NAME: []const u8 = "fels";
 
 ----------------------------------------
 

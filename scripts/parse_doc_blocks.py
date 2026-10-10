@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""Parse the ```gabbro code blocks of the Gabbro docs. Fragments are expected
-to fail sometimes; this script is a smoke test for syntax the .gab files do
+"""Parse the ```fels code blocks of the Fels docs. Fragments are expected
+to fail sometimes; this script is a smoke test for syntax the .fels files do
 not use (macros, quote, splices, lambdas)."""
 import glob, os, re, subprocess, sys, tempfile
 
 docs = sys.argv[1] if len(sys.argv) > 1 else r"C:\dev\gabbro\docs"
 here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-tmp = os.path.join(tempfile.gettempdir(), "doc_block.gab")
+tmp = os.path.join(tempfile.gettempdir(), "doc_block.fels")
 total = bad = 0
 for md in sorted(glob.glob(os.path.join(docs, "*.md"))):
     text = open(md, encoding="utf8").read()
-    for m in re.finditer(r"```gabbro\n(.*?)```", text, re.S):
+    for m in re.finditer(r"```fels\n(.*?)```", text, re.S):
         total += 1
         open(tmp, "w", encoding="utf8").write(m.group(1))
         r = subprocess.run(["tree-sitter", "parse", "--quiet", tmp], cwd=here,

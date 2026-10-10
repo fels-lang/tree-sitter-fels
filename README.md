@@ -1,8 +1,8 @@
-# tree-sitter-gabbro
+# tree-sitter-fels
 
-A tree-sitter grammar for the Gabbro programming language. Gabbro source files end in `.gab`.
+A tree-sitter grammar for the Fels programming language. Fels source files end in `.fels`.
 
-The grammar follows the compiler parser (`src/parser.zig` in the Gabbro repo). Where the docs and the parser disagree, the parser wins.
+The grammar follows the compiler parser (`src/parser.zig` in the Fels repo). Where the docs and the parser disagree, the parser wins.
 
 ## What is here
 
@@ -12,8 +12,8 @@ The grammar follows the compiler parser (`src/parser.zig` in the Gabbro repo). W
 - `queries/`: `highlights.scm`, `brackets.scm`, `indents.scm`, `outline.scm`, `textobjects.scm`, `overrides.scm`, `runnables.scm`, `injections.scm`.
 - `test/corpus/`: parse tests, one file per feature area.
 - `test/highlight/`: highlight tests. They are generated from `test/highlight-specs/` by `scripts/make_highlight_tests.py`.
-- `scripts/parse_all.py`: parses every `.gab` file of the Gabbro repo and of `codebridge/src` and reports ERROR or MISSING nodes.
-- `scripts/parse_doc_blocks.py`: parses the code blocks of the Gabbro docs. Many blocks are fragments, so some failures are expected. It is a smoke test for syntax that no `.gab` file uses yet, such as macros.
+- `scripts/parse_all.py`: parses every `.fels` file of the Fels repo and of `codebridge/src` and reports ERROR or MISSING nodes.
+- `scripts/parse_doc_blocks.py`: parses the code blocks of the Fels docs. Many blocks are fragments, so some failures are expected. It is a smoke test for syntax that no `.fels` file uses yet, such as macros.
 - `scripts/preview.py`: renders sample files to HTML in `preview/`.
 
 ## Use

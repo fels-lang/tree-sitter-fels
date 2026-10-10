@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Parse every .gab file of the Gabbro repo and codebridge with tree-sitter.
+"""Parse every .fels file of the Fels repo and codebridge with tree-sitter.
 
 Prints the files that contain ERROR or MISSING nodes and a total X/Y line.
 Usage: python scripts/parse_all.py [root ...]
@@ -18,7 +18,7 @@ def find_files():
     for root in ROOTS:
         for d, dirs, files in os.walk(root):
             dirs[:] = [x for x in dirs if x not in SKIP]
-            out += [os.path.join(d, f) for f in files if f.endswith(".gab")]
+            out += [os.path.join(d, f) for f in files if f.endswith((".fels", ".gab"))]
     return sorted(out)
 
 

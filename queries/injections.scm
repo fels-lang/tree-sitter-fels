@@ -1,1 +1,1 @@
-; Nothing is injected yet. Gabbro has no embedded languages.
+; Nothing is injected yet. Fels has no embedded languages.

@@ -1,9 +1,9 @@
 {
-  "name": "tree-sitter-gabbro",
+  "name": "tree-sitter-fels",
   "version": "0.1.0",
-  "description": "Tree-sitter grammar for the Gabbro programming language",
+  "description": "Tree-sitter grammar for the Fels programming language",
   "license": "Apache-2.0",
   "main": "bindings/node",
   "files": ["grammar.js", "tree-sitter.json", "src/**", "queries/**"],
-  "keywords": ["tree-sitter", "parser", "gabbro"]
+  "keywords": ["tree-sitter", "parser", "fels"]
 }

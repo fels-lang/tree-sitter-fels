@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Generate test/highlight/*.gab from the specs in test/highlight-specs/*.spec.
+"""Generate test/highlight/*.fels from the specs in test/highlight-specs/*.spec.
 
-A spec is a Gabbro file where a line starting with `//? ` is an assertion about
+A spec is a Fels file where a line starting with `//? ` is an assertion about
 the previous code line:
 
     //? token | capture          first occurrence of `token` in the code line
@@ -48,7 +48,7 @@ def main():
             else:
                 code = raw
                 out.append(raw)
-        name = os.path.splitext(os.path.basename(spec))[0] + ".gab"
+        name = os.path.splitext(os.path.basename(spec))[0] + ".fels"
         with open(os.path.join(out_dir, name), "w", encoding="utf8", newline="\n") as f:
             f.write("\n".join(out) + "\n")
 

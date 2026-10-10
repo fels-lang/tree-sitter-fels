@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render sample Gabbro files to standalone HTML files in preview/.
+"""Render sample Fels files to standalone HTML files in preview/.
 
 The renderer asks `tree-sitter query` for the captures of queries/highlights.scm
 and paints them onto the source. Later patterns win over earlier ones, which is
@@ -18,10 +18,10 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(HERE, "preview")
 
 SAMPLES = [
-    ("std_strings", r"C:\dev\gabbro\lib\std\strings.gab"),
-    ("codebridge_main", r"C:\dev\codebridge\src\main.gab"),
-    ("macros", os.path.join(HERE, "preview", "samples", "macros.gab")),
-    ("extern_assert", r"C:\dev\codebridge\src\win32.gab"),
+    ("std_strings", r"C:\dev\gabbro\lib\std\strings.fels"),
+    ("codebridge_main", r"C:\dev\codebridge\src\main.fels"),
+    ("macros", os.path.join(HERE, "preview", "samples", "macros.fels")),
+    ("extern_assert", r"C:\dev\codebridge\src\win32.fels"),
 ]
 
 THEME = {

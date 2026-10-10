@@ -2,11 +2,11 @@
   "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
   "grammars": [
     {
-      "name": "gabbro",
-      "camelcase": "Gabbro",
-      "title": "Gabbro",
-      "scope": "source.gabbro",
-      "file-types": ["gab"],
+      "name": "fels",
+      "camelcase": "Fels",
+      "title": "Fels",
+      "scope": "source.fels",
+      "file-types": ["fels", "gab"],
       "highlights": "queries/highlights.scm",
       "injections": "queries/injections.scm",
       "path": "."
@@ -15,7 +15,7 @@
   "metadata": {
     "version": "0.1.0",
     "license": "Apache-2.0",
-    "description": "Tree-sitter grammar for the Gabbro programming language",
+    "description": "Tree-sitter grammar for the Fels programming language",
     "authors": [{ "name": "Christian Brendlin" }]
   },
   "bindings": {

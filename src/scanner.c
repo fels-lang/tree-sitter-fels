@@ -1,4 +1,4 @@
-// External scanner for the Gabbro grammar.
+// External scanner for the Fels grammar.
 //
 // It has one job: tell the opening `|` of a payload capture from the bitwise
 // or operator. The compiler parser uses a lookahead of four tokens for this:
@@ -17,14 +17,14 @@ enum TokenType {
   CAPTURE_OPEN,
 };
 
-void *tree_sitter_gabbro_external_scanner_create(void) { return NULL; }
-void tree_sitter_gabbro_external_scanner_destroy(void *payload) { (void)payload; }
-unsigned tree_sitter_gabbro_external_scanner_serialize(void *payload, char *buffer) {
+void *tree_sitter_fels_external_scanner_create(void) { return NULL; }
+void tree_sitter_fels_external_scanner_destroy(void *payload) { (void)payload; }
+unsigned tree_sitter_fels_external_scanner_serialize(void *payload, char *buffer) {
   (void)payload;
   (void)buffer;
   return 0;
 }
-void tree_sitter_gabbro_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
+void tree_sitter_fels_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
   (void)payload;
   (void)buffer;
   (void)length;
@@ -40,7 +40,7 @@ static void skip_space(TSLexer *lexer, bool skip) {
   while (is_space(lexer->lookahead)) lexer->advance(lexer, skip);
 }
 
-bool tree_sitter_gabbro_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
+bool tree_sitter_fels_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
   (void)payload;
   if (!valid_symbols[CAPTURE_OPEN]) return false;
 
