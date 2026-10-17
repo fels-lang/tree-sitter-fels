@@ -42,10 +42,22 @@ float literals
 A :: 3.14;
 B :: 2.5f64;
 C :: 1_0.5f32;
+D :: 1e5;
+E :: 1.5e-3;
+F :: 6.02E+23f32;
 
 ----------------------------------------
 
 (source_file
+  (constant_declaration
+    (identifier)
+    (float_literal))
+  (constant_declaration
+    (identifier)
+    (float_literal))
+  (constant_declaration
+    (identifier)
+    (float_literal))
   (constant_declaration
     (identifier)
     (float_literal))

@@ -216,3 +216,24 @@ f :: fn(x: i8, y: i16, z: i64, w: isize, a: u16, b: u32, c: u64) -> void { }
         (primitive_type)))
     (primitive_type)
     (block)))
+
+================================================================================
+Union declaration
+================================================================================
+
+Large :: union { quad: u64, parts: [2]u32 }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (struct_declaration
+    (identifier)
+    (struct_body
+      (field_declaration
+        (field_identifier)
+        (primitive_type))
+      (field_declaration
+        (field_identifier)
+        (array_type
+          (integer_literal)
+          (primitive_type))))))

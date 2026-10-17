@@ -39,6 +39,7 @@
 [
   "fn"
   "struct"
+  "union"
   "enum"
   "errors"
   "interface"

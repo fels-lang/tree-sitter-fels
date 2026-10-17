@@ -1049,8 +1049,21 @@
           "value": "::"
         },
         {
-          "type": "STRING",
-          "value": "struct"
+          "type": "FIELD",
+          "name": "kind",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "struct"
+              },
+              {
+                "type": "STRING",
+                "value": "union"
+              }
+            ]
+          }
         },
         {
           "type": "CHOICE",
@@ -5465,8 +5478,21 @@
     "float_literal": {
       "type": "TOKEN",
       "content": {
-        "type": "PATTERN",
-        "value": "[0-9][0-9_]*\\.[0-9][0-9_]*[a-zA-Z0-9_]*"
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "[0-9][0-9_]*\\.[0-9][0-9_]*([eE][+-]?[0-9][0-9_]*)?[a-zA-Z0-9_]*"
+            },
+            {
+              "type": "PATTERN",
+              "value": "[0-9][0-9_]*[eE][+-]?[0-9][0-9_]*[a-zA-Z0-9_]*"
+            }
+          ]
+        }
       }
     },
     "boolean_literal": {

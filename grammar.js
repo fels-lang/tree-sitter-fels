@@ -201,7 +201,7 @@ module.exports = grammar({
     struct_declaration: $ => seq(
       repeat($.attribute),
       optional(seq($.visibility_modifier, repeat($.attribute))),
-      field('name', $.identifier), '::', 'struct',
+      field('name', $.identifier), '::', field('kind', choice('struct', 'union')),
       optional(field('type_parameters', $.struct_type_parameters)),
       field('body', $.struct_body),
     ),
@@ -746,7 +746,11 @@ module.exports = grammar({
       /[0-9][0-9a-zA-Z_]*/,
     )),
 
-    float_literal: _ => token(/[0-9][0-9_]*\.[0-9][0-9_]*[a-zA-Z0-9_]*/),
+    // `1.5`, `1.5e-3`, `1e5`: a point, an exponent, or both (an exponent makes a float).
+    float_literal: _ => token(prec(1, choice(
+      /[0-9][0-9_]*\.[0-9][0-9_]*([eE][+-]?[0-9][0-9_]*)?[a-zA-Z0-9_]*/,
+      /[0-9][0-9_]*[eE][+-]?[0-9][0-9_]*[a-zA-Z0-9_]*/,
+    ))),
 
     boolean_literal: _ => choice('true', 'false'),
 
