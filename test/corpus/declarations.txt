@@ -432,3 +432,39 @@ k :: fn() -> i32 ! mod::Err;
       (scoped_type_identifier
         (module_identifier)
         (type_identifier)))))
+
+========================================
+inline error set without dots
+========================================
+
+m :: fn() -> i32 ! { a, b } { fail .a; }
+n :: fn() -> i32 ! { x: i32 = 5; return x; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (primitive_type)
+    (error_clause
+      (inline_error_set
+        (error_variant
+          (variant_identifier))
+        (error_variant
+          (variant_identifier))))
+    (block
+      (fail_statement
+        (variant_identifier))))
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (primitive_type)
+    (error_clause)
+    (block
+      (variable_declaration
+        (identifier)
+        (primitive_type)
+        (integer_literal))
+      (return_statement
+        (identifier)))))
