@@ -187,3 +187,35 @@ f :: fn() { n := g() catch e { yield 0; }; }
           (block
             (yield_statement
               (integer_literal))))))))
+
+========================================
+fail with a payload in parentheses, and an error value
+========================================
+
+f :: fn() -> i32 ! E {
+    fail .code(77);
+    fail .pair { 1, 2 };
+    fail err;
+}
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (primitive_type)
+    (error_clause
+      (type_identifier))
+    (block
+      (fail_statement
+        (variant_identifier)
+        (fail_payload
+          (integer_literal)))
+      (fail_statement
+        (variant_identifier)
+        (fail_payload
+          (integer_literal)
+          (integer_literal)))
+      (fail_statement
+        (identifier)))))

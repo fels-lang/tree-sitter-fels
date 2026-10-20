@@ -61,6 +61,7 @@ module.exports = grammar({
     [$.error_clause],
     [$.parameter_list, $.lambda_parameters],
     [$.local_constant, $._primary],
+    [$.fail_statement, $.enum_literal],
     [$.parameter_list, $.function_type, $.lambda_parameters],
     [$.parameter_list, $.function_type],
     [$._type, $._primary],
@@ -440,12 +441,20 @@ module.exports = grammar({
     yield_statement: $ => seq('yield', $._expression, ';'),
 
     fail_statement: $ => seq(
-      'fail', '.', field('variant', alias($.identifier, $.variant_identifier)),
-      optional(field('payload', $.fail_payload)),
+      'fail',
+      choice(
+        seq('.', field('variant', alias($.identifier, $.variant_identifier)), optional(field('payload', $.fail_payload))),
+        // `fail e;`: an error value, passed on as it is.
+        prec.dynamic(-1, field('value', $._expression)),
+      ),
       ';',
     ),
 
-    fail_payload: $ => seq('{', commaSep($._expression), optional(','), '}'),
+    // `fail .code(77);`, or in braces as it was written before.
+    fail_payload: $ => choice(
+      seq('(', commaSep($._expression), optional(','), ')'),
+      seq('{', commaSep($._expression), optional(','), '}'),
+    ),
 
     break_statement: $ => seq('break', optional(field('label', alias($.identifier, $.label))), ';'),
     continue_statement: $ => seq('continue', optional(field('label', alias($.identifier, $.label))), ';'),
