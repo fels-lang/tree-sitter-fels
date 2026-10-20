@@ -576,7 +576,8 @@ module.exports = grammar({
         commaSep1($.integer_literal),
         optional(seq(choice('..', '..='), $._expression)),
       ),
-      $.enum_literal,
+      // `.buy, .sell => …`: several variants share an arm.
+      commaSep1($.enum_literal),
       $.identifier,
     ),
 

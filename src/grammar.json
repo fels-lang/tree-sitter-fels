@@ -4162,8 +4162,29 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "enum_literal"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "enum_literal"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "enum_literal"
+                  }
+                ]
+              }
+            }
+          ]
         },
         {
           "type": "SYMBOL",

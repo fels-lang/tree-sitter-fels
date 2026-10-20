@@ -466,3 +466,44 @@ f :: fn() {
             (identifier))
           (argument_list
             (identifier)))))))
+
+========================================
+several variants share a match arm
+========================================
+
+f :: fn(k: Kind) { match k { .buy, .sell => { g(); }, .split => g(), else => {} } }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (type_identifier)))
+    (block
+      (match_statement
+        (identifier)
+        (match_body
+          (match_arm
+            (match_pattern
+              (enum_literal
+                (variant_identifier))
+              (enum_literal
+                (variant_identifier)))
+            (block
+              (expression_statement
+                (call_expression
+                  (identifier)
+                  (argument_list)))))
+          (match_arm
+            (match_pattern
+              (enum_literal
+                (variant_identifier)))
+            (call_expression
+              (identifier)
+              (argument_list)))
+          (match_arm
+            (match_pattern)
+            (compound_literal)))))))
