@@ -474,7 +474,8 @@ module.exports = grammar({
 
     zone_statement: $ => seq(
       'zone', field('name', $.identifier), ':',
-      field('kind', alias($.identifier, $.type_identifier)),
+      // `Arena`, or a kind of its own named through its module: `thread::Scope`.
+      field('kind', choice(alias($.identifier, $.type_identifier), $.scoped_type_identifier)),
       field('body', $.block),
     ),
 

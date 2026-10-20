@@ -13565,6 +13565,10 @@
         "required": true,
         "types": [
           {
+            "type": "scoped_type_identifier",
+            "named": true
+          },
+          {
             "type": "type_identifier",
             "named": true
           }

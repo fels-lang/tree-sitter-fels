@@ -507,3 +507,36 @@ f :: fn(k: Kind) { match k { .buy, .sell => { g(); }, .split => g(), else => {} 
           (match_arm
             (match_pattern)
             (compound_literal)))))))
+
+========================================
+zone kinds named through a module
+========================================
+
+f :: fn() { zone s: thread::Scope { s.spawn(fn() {}); } zone a: Arena { } }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (zone_statement
+        (identifier)
+        (scoped_type_identifier
+          (module_identifier)
+          (type_identifier))
+        (block
+          (expression_statement
+            (call_expression
+              (field_expression
+                (identifier)
+                (field_identifier))
+              (argument_list
+                (lambda_expression
+                  (lambda_parameters)
+                  (block)))))))
+      (zone_statement
+        (identifier)
+        (type_identifier)
+        (block)))))
