@@ -506,3 +506,17 @@ a variadic C function
     (identifier)
     (parameter_list
       (variadic_parameter))))
+
+========================================
+a constant with a type
+========================================
+
+LIMIT : i64 : 5000000000;
+
+----------------------------------------
+
+(source_file
+  (constant_declaration
+    (identifier)
+    (primitive_type)
+    (integer_literal)))

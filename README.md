@@ -34,6 +34,7 @@ python scripts/preview.py
 - There is no `Name { ... }` struct literal, only `.{ ... }`. So `{` after a condition always starts a block.
 - `Name :: <type>;` is a type alias when the right side starts with a primitive type, `[`, `*`, `?`, `borrow` or `atomic`. Otherwise it is a constant.
 - An identifier may start with `@` (`@panic`, `@if`).
+- In a function body, `N :: 4;` and `N : T : 4;` are constants (`constant_declaration`). One whose value starts with a name (`N :: K * 2;`) parses as a scope access, as `io::println(x);` does: the compiler tells the two apart by the space in front of `::`.
 
 ## License
 

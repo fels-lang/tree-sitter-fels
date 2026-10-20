@@ -1510,6 +1510,10 @@
           "named": true
         },
         {
+          "type": "constant_declaration",
+          "named": true
+        },
+        {
           "type": "continue_statement",
           "named": true
         },
@@ -2803,6 +2807,68 @@
         "types": [
           {
             "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "array_type",
+            "named": true
+          },
+          {
+            "type": "atomic_type",
+            "named": true
+          },
+          {
+            "type": "borrow_type",
+            "named": true
+          },
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "generic_type",
+            "named": true
+          },
+          {
+            "type": "many_pointer_type",
+            "named": true
+          },
+          {
+            "type": "opaque_type",
+            "named": true
+          },
+          {
+            "type": "optional_type",
+            "named": true
+          },
+          {
+            "type": "pointer_type",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          },
+          {
+            "type": "scoped_type_identifier",
+            "named": true
+          },
+          {
+            "type": "slice_type",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
+            "named": true
+          },
+          {
+            "type": "type_variable",
             "named": true
           }
         ]
@@ -7947,6 +8013,10 @@
           },
           {
             "type": "compound_literal",
+            "named": true
+          },
+          {
+            "type": "constant_declaration",
             "named": true
           },
           {

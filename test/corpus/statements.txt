@@ -432,3 +432,37 @@ f :: fn() {
               (continue_statement
                 (label))))
           (break_statement))))))
+
+========================================
+constants in a function body
+========================================
+
+f :: fn() {
+    N :: 4;
+    W : u16 : N * 8;
+    io::println(x);
+}
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (constant_declaration
+        (identifier)
+        (integer_literal))
+      (constant_declaration
+        (identifier)
+        (primitive_type)
+        (binary_expression
+          (identifier)
+          (integer_literal)))
+      (expression_statement
+        (call_expression
+          (scope_expression
+            (identifier)
+            (identifier))
+          (argument_list
+            (identifier)))))))

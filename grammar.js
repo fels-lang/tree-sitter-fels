@@ -60,6 +60,7 @@ module.exports = grammar({
     [$.type_variable, $.splice_expression],
     [$.error_clause],
     [$.parameter_list, $.lambda_parameters],
+    [$.local_constant, $._primary],
     [$.parameter_list, $.function_type, $.lambda_parameters],
     [$.parameter_list, $.function_type],
     [$._type, $._primary],
@@ -306,9 +307,18 @@ module.exports = grammar({
     constant_declaration: $ => seq(
       repeat($.attribute),
       optional(seq($.visibility_modifier, repeat($.attribute))),
-      field('name', $.identifier), '::',
+      field('name', $.identifier),
+      choice('::', seq(':', field('type', $._type), ':')),
       field('value', $._expression), ';',
     ),
+
+    // `N :: 4;` or `N : u8 : 4;` in a function body: a constant of its block.
+    // A name after the `::` makes it a scope access (`io::println(x);`) as well: that wins.
+    local_constant: $ => prec.dynamic(-1, seq(
+      field('name', $.identifier),
+      choice('::', seq(':', field('type', $._type), ':')),
+      field('value', $._expression), ';',
+    )),
 
     global_declaration: $ => seq(
       repeat($.attribute),
@@ -409,6 +419,7 @@ module.exports = grammar({
       $.if_statement,
       $.while_statement,
       $.for_statement,
+      alias($.local_constant, $.constant_declaration),
       $.variable_declaration,
       $.assignment_statement,
       $.expression_statement,
