@@ -679,6 +679,8 @@ module.exports = grammar({
       $.integer_literal,
       $.float_literal,
       $.string_literal,
+      $.raw_string_literal,
+      $.multiline_string_literal,
       $.char_literal,
       $.boolean_literal,
       $.null_literal,
@@ -783,6 +785,21 @@ module.exports = grammar({
     ),
 
     _string_content: _ => token.immediate(prec(1, /[^"\\]+/)),
+
+    // `r"C:\dir"`: the bytes as written, on one line, with no escapes.
+    raw_string_literal: _ => token(prec(1, seq('r"', /[^"\n]*/, '"'))),
+
+    // `"""` lines `"""`: a `"` needs no backslash; the escapes are those of any string.
+    multiline_string_literal: $ => seq(
+      '"""',
+      repeat(choice(
+        alias($._multiline_content, $.string_content),
+        $.escape_sequence,
+      )),
+      '"""',
+    ),
+
+    _multiline_content: _ => token.immediate(prec(1, /([^"\\]|"[^"\\]|""[^"\\])+/)),
 
     char_literal: $ => seq(
       "'",

@@ -29,6 +29,8 @@
 (null_literal) @constant.builtin
 
 (string_literal) @string
+(raw_string_literal) @string
+(multiline_string_literal) @string
 (char_literal) @string
 (escape_sequence) @string.escape
 

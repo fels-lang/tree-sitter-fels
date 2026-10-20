@@ -170,3 +170,25 @@ x :: 1; // trailing
     (integer_literal))
   (comment)
   (comment))
+
+========================================
+raw and multi-line strings
+========================================
+
+a :: r"C:\dir\new";
+b :: """
+    usage: "tool"
+    two ""quotes"" \t
+    """;
+
+----------------------------------------
+
+(source_file
+  (constant_declaration
+    (identifier)
+    (raw_string_literal))
+  (constant_declaration
+    (identifier)
+    (multiline_string_literal
+      (string_content)
+      (escape_sequence))))
