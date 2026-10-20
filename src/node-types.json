@@ -8979,6 +8979,10 @@
         {
           "type": "type_parameter",
           "named": true
+        },
+        {
+          "type": "variadic_parameter",
+          "named": true
         }
       ]
     }
@@ -12878,6 +12882,10 @@
   {
     "type": "usize",
     "named": false
+  },
+  {
+    "type": "variadic_parameter",
+    "named": true
   },
   {
     "type": "variant_identifier",

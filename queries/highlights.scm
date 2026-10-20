@@ -110,6 +110,8 @@
 
 "$" @punctuation.special
 
+(variadic_parameter) @punctuation.special
+
 (label) @label
 
 ; ---------------------------------------------------------------------------

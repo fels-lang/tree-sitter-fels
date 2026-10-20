@@ -468,3 +468,41 @@ n :: fn() -> i32 ! { x: i32 = 5; return x; }
         (integer_literal))
       (return_statement
         (identifier)))))
+
+========================================
+a variadic C function
+========================================
+
+#extern("c", "printf") printf :: fn(fmt: [*]const u8, ...) -> i32;
+#extern("c", "g") g :: fn(...);
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (attribute
+      (identifier)
+      (attribute_arguments
+        (string_literal
+          (string_content))
+        (string_literal
+          (string_content))))
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (many_pointer_type
+          (primitive_type)))
+      (variadic_parameter))
+    (primitive_type))
+  (function_declaration
+    (attribute
+      (identifier)
+      (attribute_arguments
+        (string_literal
+          (string_content))
+        (string_literal
+          (string_content))))
+    (identifier)
+    (parameter_list
+      (variadic_parameter))))

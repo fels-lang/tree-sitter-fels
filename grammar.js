@@ -166,9 +166,18 @@ module.exports = grammar({
 
     parameter_list: $ => seq(
       '(',
-      optional(seq(commaSep1(choice($.type_parameter, $.parameter)), optional(','))),
+      optional(choice(
+        seq(
+          commaSep1(choice($.type_parameter, $.parameter)),
+          optional(seq(',', optional($.variadic_parameter))),
+        ),
+        $.variadic_parameter,
+      )),
       ')',
     ),
+
+    // `...` after the parameters of an `#extern` C function.
+    variadic_parameter: _ => '...',
 
     type_parameter: $ => seq(
       '$', field('name', $.identifier),
