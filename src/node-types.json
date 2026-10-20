@@ -11341,6 +11341,10 @@
           "named": true
         },
         {
+          "type": "insert_directive",
+          "named": true
+        },
+        {
           "type": "interface_declaration",
           "named": true
         },
@@ -11777,6 +11781,10 @@
         {
           "type": "function_declaration",
           "named": true
+        },
+        {
+          "type": "insert_directive",
+          "named": true
         }
       ]
     }
@@ -12080,6 +12088,10 @@
         },
         {
           "type": "import_declaration",
+          "named": true
+        },
+        {
+          "type": "insert_directive",
           "named": true
         },
         {

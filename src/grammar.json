@@ -31,6 +31,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "insert_directive"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_declaration"
         }
       ]
@@ -1276,6 +1280,10 @@
               {
                 "type": "SYMBOL",
                 "name": "function_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "insert_directive"
               }
             ]
           }

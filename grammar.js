@@ -78,6 +78,8 @@ module.exports = grammar({
       $.system_library_directive,
       $.static_assert,
       $.top_level_if,
+      // `#insert m(args);`: the declarations a macro makes.
+      $.insert_directive,
       $._declaration,
     ),
 
@@ -231,7 +233,7 @@ module.exports = grammar({
 
     struct_type_parameters: $ => seq('(', commaSep($.type_parameter), ')'),
 
-    struct_body: $ => seq('{', repeat(choice($.field_declaration, $.function_declaration)), '}'),
+    struct_body: $ => seq('{', repeat(choice($.field_declaration, $.function_declaration, $.insert_directive)), '}'),
 
     field_declaration: $ => seq(
       field('name', alias($.identifier, $.field_identifier)), ':',

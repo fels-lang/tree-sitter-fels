@@ -199,3 +199,34 @@ m :: macro(o: Expr) { return #quote { #for i in 0..4 { $o = $o + $(i); } }; }
                       (identifier))
                     (splice_expression
                       (identifier))))))))))))
+
+========================================
+#insert among the declarations and in a struct body
+========================================
+
+Player :: struct {
+    name: []const u8,
+    #insert setters(Player);
+}
+#insert make_tests(5);
+
+----------------------------------------
+
+(source_file
+  (struct_declaration
+    (identifier)
+    (struct_body
+      (field_declaration
+        (field_identifier)
+        (slice_type
+          (primitive_type)))
+      (insert_directive
+        (call_expression
+          (identifier)
+          (argument_list
+            (identifier))))))
+  (insert_directive
+    (call_expression
+      (identifier)
+      (argument_list
+        (integer_literal)))))
