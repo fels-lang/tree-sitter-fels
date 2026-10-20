@@ -2790,6 +2790,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "function_declaration"
+        },
+        {
+          "type": "SYMBOL",
           "name": "return_statement"
         },
         {
@@ -3864,22 +3868,35 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": ".."
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ".."
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "..="
+                    }
+                  ]
+                },
+                {
+                  "type": "FIELD",
+                  "name": "end",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_expression"
+                  }
+                }
+              ]
             },
             {
-              "type": "STRING",
-              "value": "..="
+              "type": "BLANK"
             }
           ]
-        },
-        {
-          "type": "FIELD",
-          "name": "end",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_expression"
-          }
         },
         {
           "type": "FIELD",
@@ -6184,6 +6201,7 @@
       "lambda_parameters"
     ],
     [
+      "function_declaration",
       "local_constant",
       "_primary"
     ],

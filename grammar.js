@@ -60,7 +60,7 @@ module.exports = grammar({
     [$.type_variable, $.splice_expression],
     [$.error_clause],
     [$.parameter_list, $.lambda_parameters],
-    [$.local_constant, $._primary],
+    [$.function_declaration, $.local_constant, $._primary],
     [$.fail_statement, $.enum_literal],
     [$.parameter_list, $.function_type, $.lambda_parameters],
     [$.parameter_list, $.function_type],
@@ -415,6 +415,8 @@ module.exports = grammar({
     block: $ => seq('{', repeat($._statement), '}'),
 
     _statement: $ => choice(
+      // a declaration, as a declaration quote holds them (`#quote { f :: fn() { } }`)
+      $.function_declaration,
       $.return_statement,
       $.yield_statement,
       $.fail_statement,
@@ -537,10 +539,11 @@ module.exports = grammar({
       optional(seq('else', field('alternative', $.block))),
     ),
 
+    // `#for i in 0..4 { }`, or once per field of a struct: `#for f in fields(T) { }`.
     for_directive: $ => seq(
       '#', 'for', field('binding', $.identifier), 'in',
-      field('start', $._expression), choice('..', '..='),
-      field('end', $._expression),
+      field('start', $._expression),
+      optional(seq(choice('..', '..='), field('end', $._expression))),
       field('body', $.block),
     ),
 

@@ -1538,6 +1538,10 @@
           "named": true
         },
         {
+          "type": "function_declaration",
+          "named": true
+        },
+        {
           "type": "if_directive",
           "named": true
         },
@@ -4850,7 +4854,7 @@
       },
       "end": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "array_type",
@@ -8227,6 +8231,10 @@
           },
           {
             "type": "force_unwrap_expression",
+            "named": true
+          },
+          {
+            "type": "function_declaration",
             "named": true
           },
           {

@@ -230,3 +230,45 @@ Player :: struct {
       (identifier)
       (argument_list
         (integer_literal)))))
+
+========================================
+a declaration quote and #for over fields
+========================================
+
+dump :: macro(T: Expr) {
+    return #quote {
+        f :: fn() { }
+        #for f in fields($T) { show(f); }
+    };
+}
+
+----------------------------------------
+
+(source_file
+  (macro_declaration
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)
+        (type_identifier)))
+    (block
+      (return_statement
+        (quote_expression
+          (block
+            (function_declaration
+              (identifier)
+              (parameter_list)
+              (block))
+            (for_directive
+              (identifier)
+              (call_expression
+                (identifier)
+                (argument_list
+                  (splice_expression
+                    (identifier))))
+              (block
+                (expression_statement
+                  (call_expression
+                    (identifier)
+                    (argument_list
+                      (identifier))))))))))))
