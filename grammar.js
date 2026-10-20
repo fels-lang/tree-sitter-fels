@@ -76,7 +76,15 @@ module.exports = grammar({
       $.import_declaration,
       $.system_library_directive,
       $.static_assert,
+      $.top_level_if,
       $._declaration,
+    ),
+
+    // `#if TARGET.os == .windows { declarations } else { declarations }` among the declarations.
+    top_level_if: $ => seq(
+      '#', 'if', field('condition', $._expression),
+      '{', repeat($._item), '}',
+      optional(seq('else', choice($.top_level_if, seq('{', repeat($._item), '}')))),
     ),
 
     comment: _ => token(seq('//', /[^\n]*/)),
@@ -133,12 +141,13 @@ module.exports = grammar({
       $.interface_impl,
     ),
 
-    function_declaration: $ => seq(
+    // Preferred to a constant whose value is a function type (`f :: fn() -> u32;`).
+    function_declaration: $ => prec.dynamic(1, seq(
       repeat($.attribute),
       optional(seq($.visibility_modifier, repeat($.attribute))),
       field('name', $.identifier), '::', 'fn',
       $._signature,
-    ),
+    )),
 
     macro_declaration: $ => seq(
       repeat($.attribute),

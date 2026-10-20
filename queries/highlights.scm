@@ -238,6 +238,7 @@
 (system_library_directive "#" @preproc "system_library" @preproc)
 (if_directive "#" @preproc "if" @preproc)
 (for_directive "#" @preproc "for" @preproc)
+(top_level_if "#" @preproc "if" @preproc)
 (run_directive "#" @preproc "run" @preproc)
 (run_expression "#" @preproc "run" @preproc)
 (insert_directive "#" @preproc "insert" @preproc)

@@ -189,3 +189,54 @@ Native :: constraint($T) { return true; }
     (block
       (return_statement
         (boolean_literal)))))
+
+========================================
+a top-level #if
+========================================
+
+#if TARGET.os == .windows {
+    SEP :: 92;
+    #extern("kernel32", "GetCurrentProcessId") pid :: fn() -> u32;
+} else #if TARGET.os == .linux {
+    SEP :: 47;
+} else {
+    SEP :: 0;
+}
+
+----------------------------------------
+
+(source_file
+  (top_level_if
+    (binary_expression
+      (field_expression
+        (identifier)
+        (field_identifier))
+      (enum_literal
+        (variant_identifier)))
+    (constant_declaration
+      (identifier)
+      (integer_literal))
+    (function_declaration
+      (attribute
+        (identifier)
+        (attribute_arguments
+          (string_literal
+            (string_content))
+          (string_literal
+            (string_content))))
+      (identifier)
+      (parameter_list)
+      (primitive_type))
+    (top_level_if
+      (binary_expression
+        (field_expression
+          (identifier)
+          (field_identifier))
+        (enum_literal
+          (variant_identifier)))
+      (constant_declaration
+        (identifier)
+        (integer_literal))
+      (constant_declaration
+        (identifier)
+        (integer_literal)))))
