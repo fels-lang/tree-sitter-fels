@@ -629,3 +629,42 @@ f :: fn() { x := (a + b) * c; }
               (identifier)
               (identifier)))
           (identifier))))))
+
+========================================
+a prefix operator binds tighter than as
+========================================
+
+f :: fn() {
+    a := -x as u8;
+    b := 3 * y as i64;
+    c := &p.field as usize;
+}
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (cast_expression
+          (unary_expression
+            (identifier))
+          (primitive_type)))
+      (variable_declaration
+        (identifier)
+        (binary_expression
+          (integer_literal)
+          (cast_expression
+            (identifier)
+            (primitive_type))))
+      (variable_declaration
+        (identifier)
+        (cast_expression
+          (unary_expression
+            (field_expression
+              (identifier)
+              (field_identifier)))
+          (primitive_type))))))

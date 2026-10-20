@@ -3,14 +3,17 @@
  *
  * The compiler parser (src/parser.zig) is the source of truth. Notes:
  *  - Only `//` line comments exist.
- *  - Postfix operators (call, field, index, `?`, `!!`, `as`, `??`, `catch`)
+ *  - Postfix operators (call, field, index, `?`, `!!`, `??`, `catch`)
  *    bind tighter than every binary operator, and also inside unary operands.
+ *  - A prefix operator binds tighter than `as` (`-x as u8` is `(-x) as u8`), and
+ *    `as` tighter than the binary operators.
  *  - `??` takes a full expression as its right side (greedy, right associative).
  */
 
 const PREC = {
   coalesce: 5,
-  unary: 2,
+  unary: 95,
+  cast: 92,
   or: 10,
   and: 20,
   compare: 30,
@@ -644,7 +647,7 @@ module.exports = grammar({
 
     force_unwrap_expression: $ => prec(PREC.postfix, seq(field('value', $._operand), '!!')),
 
-    cast_expression: $ => prec(PREC.postfix, seq(
+    cast_expression: $ => prec(PREC.cast, seq(
       field('value', $._operand), 'as', field('type', $._type),
     )),
 

@@ -28,7 +28,7 @@ python scripts/preview.py
 ## Notes on the grammar
 
 - Comments are `//` only. There are no block comments.
-- Postfix operators (`()`, `.`, `[]`, `?`, `!!`, `as`, `??`, `catch`) bind tighter than every binary operator. `??` takes a whole expression on its right and is right associative.
+- Postfix operators (`()`, `.`, `[]`, `?`, `!!`, `??`, `catch`) bind tighter than every other operator. A prefix operator (`-`, `!`, `~`, `&`, `*`) binds tighter than `as`, and `as` tighter than every binary operator: `-x as u8` is `(-x) as u8`, `a * b as i64` is `a * (b as i64)`. `??` takes a whole expression on its right and is right associative.
 - Binary precedence, loosest first: `||`, `&&`, comparisons, `|`, `^`, `&`, shifts, `+ - +% -%`, `* / % *%`. All are left associative. Shifts bind looser than addition.
 - `unsafe expr` takes an operand that includes the operators from `^` upward.
 - There is no `Name { ... }` struct literal, only `.{ ... }`. So `{` after a condition always starts a block.

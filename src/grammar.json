@@ -4242,7 +4242,7 @@
     },
     "unary_expression": {
       "type": "PREC",
-      "value": 2,
+      "value": 95,
       "content": {
         "type": "SEQ",
         "members": [
@@ -4305,7 +4305,7 @@
     },
     "run_expression": {
       "type": "PREC",
-      "value": 2,
+      "value": 95,
       "content": {
         "type": "SEQ",
         "members": [
@@ -4812,7 +4812,7 @@
     },
     "cast_expression": {
       "type": "PREC",
-      "value": 100,
+      "value": 92,
       "content": {
         "type": "SEQ",
         "members": [
