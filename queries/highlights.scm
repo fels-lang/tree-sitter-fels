@@ -76,6 +76,7 @@
 "as" @keyword.operator
 
 "return" @keyword.return
+"yield" @keyword.return
 
 [
   "catch"

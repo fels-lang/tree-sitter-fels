@@ -394,6 +394,7 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $.return_statement,
+      $.yield_statement,
       $.fail_statement,
       $.break_statement,
       $.continue_statement,
@@ -414,6 +415,9 @@ module.exports = grammar({
     ),
 
     return_statement: $ => seq('return', optional($._expression), ';'),
+
+    // `yield value;` in a `catch` handler: the value the `catch` expression takes.
+    yield_statement: $ => seq('yield', $._expression, ';'),
 
     fail_statement: $ => seq(
       'fail', '.', field('variant', alias($.identifier, $.variant_identifier)),

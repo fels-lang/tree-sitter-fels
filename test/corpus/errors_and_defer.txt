@@ -163,3 +163,27 @@ f :: fn() { defer close(h); defer { a(); b(); } defer.ok commit(); defer.err { r
       (defer_statement
         (defer_mode)
         (block)))))
+
+========================================
+yield in a catch handler
+========================================
+
+f :: fn() { n := g() catch e { yield 0; }; }
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (variable_declaration
+        (identifier)
+        (catch_expression
+          (call_expression
+            (identifier)
+            (argument_list))
+          (identifier)
+          (block
+            (yield_statement
+              (integer_literal))))))))
