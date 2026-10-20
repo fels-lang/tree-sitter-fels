@@ -16,7 +16,7 @@
 
 (struct_declaration
   name: (_) @name
-  "struct" @context) @item
+  kind: _ @context) @item
 
 (interface_declaration
   name: (_) @name
