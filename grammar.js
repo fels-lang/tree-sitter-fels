@@ -414,8 +414,11 @@ module.exports = grammar({
 
     fail_payload: $ => seq('{', commaSep($._expression), optional(','), '}'),
 
-    break_statement: _ => seq('break', ';'),
-    continue_statement: _ => seq('continue', ';'),
+    break_statement: $ => seq('break', optional(field('label', alias($.identifier, $.label))), ';'),
+    continue_statement: $ => seq('continue', optional(field('label', alias($.identifier, $.label))), ';'),
+
+    // `outer:` before a loop, for a `break outer;` or `continue outer;` inside it.
+    _loop_label: $ => seq(field('label', alias($.identifier, $.label)), ':'),
 
     defer_statement: $ => seq(
       'defer',
@@ -445,6 +448,7 @@ module.exports = grammar({
     else_clause: $ => seq('else', choice($.if_statement, $.block)),
 
     while_statement: $ => seq(
+      optional($._loop_label),
       'while',
       field('condition', $._expression),
       optional($.if_capture),
@@ -452,6 +456,7 @@ module.exports = grammar({
     ),
 
     for_statement: $ => seq(
+      optional($._loop_label),
       'for',
       optional('&'),
       field('binding', $.identifier),

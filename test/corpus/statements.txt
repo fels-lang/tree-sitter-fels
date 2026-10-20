@@ -398,3 +398,37 @@ f :: fn() { g(); a.b(); x?; }
       (expression_statement
         (try_expression
           (identifier))))))
+
+========================================
+labeled loops
+========================================
+
+f :: fn() {
+    outer: for i in 0..3 {
+        rows: while true { break outer; continue rows; }
+        break;
+    }
+}
+
+----------------------------------------
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameter_list)
+    (block
+      (for_statement
+        (label)
+        (identifier)
+        (integer_literal)
+        (integer_literal)
+        (block
+          (while_statement
+            (label)
+            (boolean_literal)
+            (block
+              (break_statement
+                (label))
+              (continue_statement
+                (label))))
+          (break_statement))))))
