@@ -263,7 +263,7 @@ module.exports = grammar({
       repeat($.attribute),
       optional(seq($.visibility_modifier, repeat($.attribute))),
       field('name', $.identifier), '::', 'enum',
-      '{', repeat($.enum_variant), '}',
+      '{', repeat(choice($.enum_variant, $.function_declaration)), '}',
     ),
 
     enum_variant: $ => seq(

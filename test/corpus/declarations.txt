@@ -520,3 +520,49 @@ LIMIT : i64 : 5000000000;
     (identifier)
     (primitive_type)
     (integer_literal)))
+
+========================================
+methods in an enum
+========================================
+
+Color :: enum {
+    red,
+    green,
+    is_red :: fn(self: Self) -> bool { return self == .red; }
+    pub next :: fn(self: Self) -> Color { return .green; }
+}
+
+----------------------------------------
+
+(source_file
+  (enum_declaration
+    (identifier)
+    (enum_variant
+      (variant_identifier))
+    (enum_variant
+      (variant_identifier))
+    (function_declaration
+      (identifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (type_identifier)))
+      (primitive_type)
+      (block
+        (return_statement
+          (binary_expression
+            (identifier)
+            (enum_literal
+              (variant_identifier))))))
+    (function_declaration
+      (visibility_modifier)
+      (identifier)
+      (parameter_list
+        (parameter
+          (identifier)
+          (type_identifier)))
+      (type_identifier)
+      (block
+        (return_statement
+          (enum_literal
+            (variant_identifier)))))))
